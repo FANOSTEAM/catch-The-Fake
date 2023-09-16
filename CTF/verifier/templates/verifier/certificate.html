@@ -1,0 +1,19 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block title%}Verify{%endblock%}
+{%block link%}{%endblock%}
+{%block content%}
+    {%if certificate%}
+    
+
+        <br>
+        <img src="{{certificate.profile_picture.url}}" style="margin-left: -5; border-radius: 700px; width: 20rem;"> <img  style="padding-left: 50%;" src="{{certificate.title.major.university.logo.url}}"> 
+<br>
+<center>
+<h1> {{certificate.type_of_certificate}} <br><br></h1><h2>this is to certify that <br>
+        {{certificate.firstName}}        {{certificate.middleName}}        {{certificate.lastName}}
+    </h2></center>   
+    {%else%}
+        Sorry the requested certificate was not found.
+    {%endif%}
+{%endblock%}
