@@ -1,0 +1,17 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Certificate.io | {%block title%}{%endblock%}</title>
+    <link href="{%static 'boot/css/bootstrap.min.css'%}" rel="stylesheet" crossorigin="anonymous">
+    <link href="{%static 'css/base_style.css'%}" rel="stylesheet" crossorigin="anonymous">
+    {%block link%}{%endblock%}
+  </head>
+  <body id="main-body">
+    {%block content%}
+    {%endblock%}
+    <script src="{% static 'boot/js/bootstrap.bundle.min.js'%}"></script>
+  </body>
+</html>

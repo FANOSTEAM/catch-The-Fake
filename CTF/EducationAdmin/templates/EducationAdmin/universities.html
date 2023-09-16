@@ -1,0 +1,82 @@
+{%extends 'EducationAdmin/index.html'%}
+{%load static%}
+{%block content%}  
+<link href="{%static 'boot/css/bootstrap.min.css'%}" rel="stylesheet" crossorigin="anonymous">
+<div id="container-object">             
+<table class="table datatable">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">University Name</th>
+        <th scope="col">Universiy Id</th>
+        <th scope="col">edit</th>
+      </tr>
+    </thead>
+    <tbody>
+        {%for university in universities%}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{university.name}}</td>
+        <td>{{university.UniversityId}}</td>
+        <td><button class="btn btn-danger" id="edit" value="{{university.id}}">edit</button></td>
+      </tr>
+      {%endfor%}
+
+    </tbody>
+  </table>
+</div>
+
+  <script src="{% static 'boot/js/bootstrap.bundle.min.js'%}"></script>
+{%endblock%}
+{%block script%}
+  
+  <script >
+    var editbtn=document.getElementById('edit')
+    var container=document.getElementById('container-object')
+editbtn.addEventListener('click',(e)=>{
+    container.innerHTML=`<form id='data'>
+{%csrf_token%}
+
+    <div class="form-outline mb-4">
+      <input type="text" id="universityId" class="form-control" />
+      <label class="form-label" for="universityId">University Identifier</label>
+    </div>  
+    <div class="form-outline mb-4">
+      <input type="text" id="universitiy" class="form-control" />
+      <label class="form-label" for="universitiy">University Name</label>
+    </div>
+    <div class="form-outline mb-4">
+        <input type="file"   id="logo"  name="logo[]" class="form-control" />
+        <label class="form-label" for="logo">University logo</label>
+      </div>  
+      
+    <button type='submit' id='university_btn' name='submit'value="${e.target.value}" class="btn btn-primary btn-block mb-4">Sign in</button>
+  </form>`
+  document.getElementById('data').addEventListener('submit',(e1)=>{
+    e1.preventDefault()
+    var data = new FormData();
+    let university_id=document.getElementById('universityId').value
+    let universtiy_name=document.getElementById('universitiy').value
+    let logo=document.getElementById("logo").files[0]
+    data.append('universityId',university_id)
+data.append('universityName',universtiy_name)
+data.append('logo',logo)
+data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+data.append('buffer', e.target.id)
+$.ajax({
+    url: "{%url 'editUniversity'%}" ,
+    method: "POST",
+    processData: false,
+    contentType: false,
+    mimeType: "multipart/form-data",
+    data: data,
+    success: function (data) {
+        alert(data)
+    },
+});
+
+});
+  
+})
+</script>
+{%endblock%}

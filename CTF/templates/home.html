@@ -1,0 +1,68 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block title%}Verify{%endblock%}
+{%block link%}
+<link rel="icon" href="{%static 'images/icon-default.png'%}">
+<link href="{%static 'css/home-style.css'%}" rel="stylesheet" >
+{%endblock%}
+{%block content%}
+
+<main class="section" id="sec1">
+<div class="nav" id="nav">
+    <button onclick="toggler()" class="toggle-btn">&#8984;</button>
+    <a href="/" class="nav-brand">
+        
+    <img src="{%static 'images/icon-default.png'%}" alt="catch the fake" class="brand-icon">
+    <div class="brand-name">Catch the fake</div>
+    </a>
+    <div class="nav-items">
+        {%block account%}
+    <a href="/verify" class="nav-link">VERIFY</a>
+    
+    <a href="/signup" class="nav-link">SINGN UP</a>
+    <a href="/login" class="nav-link">LOG IN</a>
+
+    <a href="#" class="nav-link"> REPORT</a>    {%endblock%}
+</div>
+</div>
+{%block main%}
+    <div class="hero">
+        <h1>VERIFY WHETHER THAT CERTIFICATE IS TRUE OR NOT Now !!
+        </h1>
+        <p class="hero-text">
+            No one should be allowed to fake a valuable certificate.</p> <p  class="hero-text2">we bring new solutions that will eradicate this head-ache 
+        </p>
+       
+        <a href="/verify"><button class="hero-btn" >VERIFY NOW</button></a>
+    </div>
+    <a href="#sec2">
+    <div class="scroll-down"></div></a>
+</main>
+
+<div id="sec2">
+        <div class="cards-left section">
+    <img src="{%static 'images/simple.png'%}" alt="simple" class="card-img">
+    <div class="details">
+    <p class="title">Simple to use</p>
+    <p class="discription">using our platform you can check whether a certificate is valid or not with ease </p>
+</div>
+    </div>
+    
+</div>
+<div id="sec3">
+<div class="cards-left section" id="sec3">
+    
+    <div class="details">
+    <p class="title">Fast</p>
+    <p class="discription">Just scan the qr code on the certificate and you are done!! <br>
+    If there is no qr code then we have some quick questions for you then you will verify the certificate  </p>
+</div>
+<img src="{%static 'images/fast.jpg'%}" alt="simple" class="card-img"></div>
+<a href="#sec3">
+    <div class="scroll-down" id="sec3"></div></a>
+    <a href="#sec1">
+        <div class="scroll-down" id="sectop"></div></a>
+</div>
+{%endblock%}
+<script src="{%static 'js/nav.js'%}"></script>
+{%endblock%}

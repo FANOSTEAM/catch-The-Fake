@@ -1,0 +1,14 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: Devonshire-Regular
+font link: https://fonts.google.com/specimen/Devonshire
+font author: Astigmatic
+font author site: http://www.astigmatic.com/
+
+
+icon designer: Gianni - Dolce Merda
+icon designer link: /gianni_dolce
+        
+{"bg-gradient-0":"#792300","bg-gradient-1":"#F37000","icon":"#ffffff","font":"#ffffff","slogan":"#ffffff"}
+      
