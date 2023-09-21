@@ -1,0 +1,82 @@
+{%if collages%}
+
+<form class="container-md" id="search2"  action="{%url 'search'%}" method ="post">
+    {%csrf_token%}
+    <label for="title" class="form-select-label" style="color: goldenrod;">Select a Collage</label>
+    <select class="form-select" id="collage" required aria-label="Default select example">
+        
+        {%for collage in collages%}
+        <option value="{{collage.id}}">{{collage.name}}</option>
+        {%endfor%}
+    </select>
+    
+            
+    <button type="submit" class="btn btn-light">Next</button>
+</form>
+{%elif majors%}
+<form class="container-md" id="search3"  action="{%url 'search'%}" method ="get">
+    {%csrf_token%}
+    <label for="title" class="form-select-label" style="color: goldenrod;">Select A Major</label>
+    <select class="form-select" id="major" required aria-label="Default select example">
+        
+        {%for major in majors%}
+        <option value="{{major.id}}">{{major.name}}</option>
+        {%endfor%}
+    </select>
+    
+            
+    <button type="submit" class="btn btn-light">Next</button>
+</form>
+{%elif titles%}
+
+<form id="search4" style="color: goldenrod;" class="container-md">
+    {%csrf_token%}
+    <div class="row">
+        <div class="col">
+    <div class="form-group">
+    <label for="title" class="form-select-label">Select Degree type</label>
+    <select class="form-select" required aria-placeholder="Degree type" id="title" required aria-label="Select Degree type">
+        
+        {%for title in titles%}
+        <option value="{{title.id}}">{{title.title}}</option>
+        {%endfor%}
+    </select>
+    </div></div>
+    <div class="col">
+    <div class="form-group">
+        <label for="exampleInputEmail1">First Name</label>
+        <input type="text" required class="form-control mb-3" id="FirstName" aria-describedby="Name" placeholder="Enter First Name">
+        
+    </div>
+    <div class="form-group">
+        <label for="MiddleName">Middle Name</label>
+        <input type="text"  required class="form-control mb-3" id="MiddleName" placeholder="Enter Middel Name">
+    </div>
+    <div class="form-group ">
+        <label class="form" for="LastName">Last Name</label>
+        <input type="text"  required class="form-control mb-3" id="LastName" placeholder="Enter Last Name">
+        
+    </div></div>
+    <div class="col">
+        <div class="form-group ">
+            <label class="form" for="GPA">GPA</label>
+            <input type="text" required class="form-control" id="GPA" placeholder="eg. 3.6">
+            
+        </div>
+        <div class="form-group ">
+            <label class="form" for="cGPA">CGPA</label>
+            <input type="text" required class="form-control" id="cGPA" placeholder="eg, 3.9">    
+        </div>
+    <div class="form-group ">
+        <label class="form" for="date">date of Graduation</label>
+        <input type="date" required class="form-control" id="date" placeholder="date of Graduation">  
+    </div>
+</div>
+
+    <button type="submit" class="btn btn-primary">Find Certificate Now</button>
+</div>
+
+
+</form>
+
+{%endif%}

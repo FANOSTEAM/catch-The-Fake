@@ -1,0 +1,76 @@
+{%extends 'EducationAdmin/index.html'%}
+{%load static%}
+{%block content%}  
+<link href="{%static 'boot/css/bootstrap.min.css'%}" rel="stylesheet" crossorigin="anonymous">
+<div class="main1">
+<div id="container-object">             
+<table class="table datatable">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">University Name</th>
+            
+            <th scope="col">edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for collage in collages%}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{collage.name}}</td>
+                
+                <td><button class="btn btn-danger" id="edit" value="{{collage.id}}">edit</button></td>
+            </tr>
+        {%endfor%}
+
+    </tbody>
+</table>
+</div>
+
+<script src="{% static 'boot/js/bootstrap.bundle.min.js'%}"></script>
+{%endblock%}
+{%block script%}
+
+<script >
+    var editbtn=document.getElementById('edit')
+    var container=document.getElementById('container-object')
+editbtn.addEventListener('click',(e)=>{
+    container.innerHTML=`
+<form id='data'>
+    {%csrf_token%}
+
+    <div class="form-outline mb-4">
+        <input type="text" id="collage_name" class="form-control" />
+        <label class="form-label" for="collage">collage name</label>
+    </div>  
+
+
+    <button type='submit' id='collage' name='submit' value="${e.target.value}" class="btn btn-primary btn-block mb-4">Edit</button>
+    <a href="{%url 'majors'  13246586%}" 
+        class="btn btn-primary btn-block mb-4">Majors</a>
+</form>`.replace('13246586',e.target.value.toString())
+    document.getElementById('data').addEventListener('submit',(e1)=>{
+    e1.preventDefault()
+    var data = new FormData();
+
+    let collage_name=document.getElementById('collage_name').value
+    
+data.append('collage_name',collage_name)
+
+data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+data.append('buffer', e.target.value)
+$.ajax({
+    url: "{%url 'editCollage'%}" ,
+    method: "POST",
+    processData: false,
+    contentType: false,
+    mimeType: "multipart/form-data",
+    data: data,
+    success: function (data) {
+        alert('edit was success')
+        editbtn.click()
+        
+    },});});})
+</script>
+</div>
+{%endblock%}

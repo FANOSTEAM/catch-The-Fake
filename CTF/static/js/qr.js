@@ -1,10 +1,4 @@
-
-
-
 document.addEventListener("DOMContentLoaded", function(event){
-
-
-
   const body= document.getElementById('form-container')
   let scan= 0;
   let toggleBtn=document.getElementById('qr')
@@ -21,13 +15,19 @@ document.addEventListener("DOMContentLoaded", function(event){
           mode: 'same-origin',
           data:{'id':decodedText},
       success:function (response){
-        var blob=new Blob([response]);
-        var link=document.createElement('a');
-        link.href=window.URL.createObjectURL(blob);
-        link.download="certificate.pdf";
-        link.click();}})
+        if (response['not found']){
+          alert("No matching certificate was found")
+        }
+        else{
+          var blob=new Blob([response]);
+          var link=document.createElement('a');
+          link.href=window.URL.createObjectURL(blob);
+          link.download="certificate.pdf";
+          link.click();
+          alert("Certificate was found and your download will start in 5sec")
+        }}})
       };
-        const config = { fps: 10, qrbox: { width: 400, height: 300 } };
+        const config = { fps: 10, qrbox: { width: 40, height: 40 } };
           html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
           scan=1
           toggleBtn.textContent='stop scan'
@@ -56,24 +56,28 @@ document.addEventListener("DOMContentLoaded", function(event){
         html5QrCode.scanFile(imageFile)
         .then(decodedText => {
           console.log(decodedText);
-         
           $.ajax(
               {url:'/verify/search/',
               type:'GET',
               mode: 'same-origin',
               data:{'id':decodedText},
           success:function (response){
-            var blob=new Blob([response]);
-            var link=document.createElement('a');
-            link.href=window.URL.createObjectURL(blob);
-            link.download="certificate.pdf";
-            link.click();}})
+            if (response['not found']){
+              alert("No matching certificate was found")
+            }
+            else{
+              var blob=new Blob([response]);
+              var link=document.createElement('a');
+              link.href=window.URL.createObjectURL(blob);
+              link.download="certificate.pdf";
+              link.click();
+              alert("Certificate was found and your download will start in 5sec")
+            }}})
 
       }).catch(err => {
                 // failure, handle it.
                 reader.textContent=""
                 console.log(`Error scanning file. Reason: ${err}`)
-           
               })
               });
           

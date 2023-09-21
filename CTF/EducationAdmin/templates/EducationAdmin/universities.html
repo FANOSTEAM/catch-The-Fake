@@ -50,8 +50,10 @@ editbtn.addEventListener('click',(e)=>{
         <label class="form-label" for="logo">University logo</label>
       </div>  
       
-    <button type='submit' id='university_btn' name='submit'value="${e.target.value}" class="btn btn-primary btn-block mb-4">Sign in</button>
-  </form>`
+    <button type='submit' id='university_btn' name='submit'value="${e.target.value}" class="btn btn-primary btn-block mb-4">Edit</button>
+    <a href="{%url 'collages'  13246586%}" 
+      class="btn btn-primary btn-block mb-4">Collages</a>
+  </form>`.replace('13246586',e.target.value.toString())
   document.getElementById('data').addEventListener('submit',(e1)=>{
     e1.preventDefault()
     var data = new FormData();
@@ -62,7 +64,7 @@ editbtn.addEventListener('click',(e)=>{
 data.append('universityName',universtiy_name)
 data.append('logo',logo)
 data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
-data.append('buffer', e.target.id)
+data.append('buffer', e.target.value)
 $.ajax({
     url: "{%url 'editUniversity'%}" ,
     method: "POST",

@@ -1,0 +1,122 @@
+{%extends 'EducationAdmin/index.html'%}
+{%load static%}
+{%block content%}  
+<link href="{%static 'boot/css/bootstrap.min.css'%}" rel="stylesheet" crossorigin="anonymous">
+<div id="container-object">   
+  <hr/>
+  <p>upload certificates from excel or csv files here</p>        
+  <form method="POST" id="certificateForm">
+    <input type="file" name="excelFile[]" required id="excel" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+    <input type="file" name="profiel[]"  id='file' required accept="image/*" multiple>
+    <button type="submit" name="submit" value="{%url 'adminUpload'%}" id="submit">submit</button>
+  </form>
+  <hr/>  
+<table class="table datatable">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Middle Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">University Id</th>
+        <th scope="col">Collage Name</th>
+        <th scope="col">Major</th>
+        <th scope="col">Degree Type</th>
+        <th scope="col">GPA</th>
+        <th scope="col">CGPA</th>
+        <th scope="col">Year</th>
+        <th scope="col">Type of Certificate</th>
+        <th scope="col">Validity</th>
+      </tr>
+    </thead>
+    <tbody>
+        {%for certificate in certificates%}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <th scope="col">{{certificate.firstName}}</th>
+        <th scope="col">{{certificate.middleName}}</th>
+        <th scope="col">{{certificate.lastName}}</th>
+        <th scope="col">{{certificate.title.major.collage.university.UniversityId}}</th>
+        <th scope="col">{{certificate.title.major.collage.name}}</th>
+        <th scope="col">{{certificate.title.major.name}}</th>
+        <th scope="col">{{certificate.title.title}}</th>
+        <th scope="col">{{certificate.GPA}}</th>
+        <th scope="col">{{certificate.CGPA}}</th>
+        <th scope="col">{{certificate.issued_on}}</th>
+        <th scope="col">{{certificate.type_of_certificate}}</th>
+        <th scope="col">{{certificate.ban}}</th>
+        <!-- <th scope="col"><input type="checkbox" disabled="disabled" checked="checked"></th> -->
+      </tr>
+      {%endfor%}
+
+    </tbody>
+  </table>
+</div>
+
+  <script src="{% static 'boot/js/bootstrap.bundle.min.js'%}"></script>
+{%endblock%}
+{%block script%}
+  
+<script >
+  let certificateForm = $('#certificateForm');
+let c2=document.getElementById('certificateForm')
+var container=document.getElementById('container-object')
+certificateForm.on('submit',(e)=>{  
+e.preventDefault()
+    var data = new FormData();
+
+    // var url = "/single_upload/";
+    // data.append("file", $("input[id^='file']")[0].files[0]);
+
+    var url = document.getElementById('submit').value
+    var files = $("input[id^='file']")[0].files;
+    for (i=0; i<files.length; i++) {
+      data.append("files", files[i]);
+    }
+    let  excel=$("input[id^='excel']")[0].files[0];
+    console.log(excel)
+    data.append('excel',excel)
+    data.append("csrfmiddlewaretoken", '{{ csrf_token }}');
+    $.ajax({
+      method: "POST",
+      url: url,
+      processData: false,
+      contentType: false,
+      mimeType: "multipart/form-data",
+      data: data,
+      success: function (res) {
+        alert('some certificates where uploaded success fully.')
+        container.innerHTML=`
+        
+        <table class="table datatable">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Middle Name</th>
+        <th scope="col">Last Name</th>
+
+      </tr>
+    </thead>
+    <tbody>`
+    for( i in res['uploaded']){
+      container.innerHTML+= `
+      <tr>
+        <th scope="row">#</th>
+        <th scope="col">${i[0]}</th>
+        <th scope="col">${i[1]}</th>
+        <th scope="col">${i[2]}</th>
+      </tr>
+      
+
+    </tbody>
+  </table>
+        
+        `;
+
+
+      }}})
+      },
+    );
+</script>
+{%endblock%}
