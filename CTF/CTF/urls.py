@@ -14,21 +14,25 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path,include
-from django.conf.urls.static import static
 from django.conf import settings
-from . import views
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
+
+from . import Uview, views
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('verify/',include('verifier.urls')),
-    path('student/',include('Student.urls')),
-    path('minister.edu/',include('EducationAdmin.urls')),
-    path('',views.home,name='home'),
-    path('login/',views.login,name='login'),
-    path('signup/',views.signup,name='signup'),
-    path('TIN/',views.tin,name='tin'),
-    path('code/',views.code,name='code'),
-    path('signout',views.signout,name='signout'),
+    path("admin/", admin.site.urls),
+    path("verify/", include("verifier.urls")),
+    path("student/", include("Student.urls")),
+    path("minister.edu/", include("EducationAdmin.urls")),
+    path("", views.home, name="home"),
+    path("login/", views.login, name="login"),
+    path("signup/", views.signup, name="signup"),
+    path("TIN/", views.tin, name="tin"),
+    path("code/", views.code, name="code"),
+    path("signout", views.signout, name="signout"),
+    path("university/login", Uview.university_login, name="ulogin"),
+    path("university", Uview.university_index, name="university_index"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

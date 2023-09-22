@@ -1,0 +1,45 @@
+
+{%if majors%}
+<form class="container-md" id="search3"  action="{%url 'search'%}" method ="get">
+    {%csrf_token%}
+    <label for="title" class="form-select-label" style="color: goldenrod;">Select A Major</label>
+    <select class="form-select" id="major" required aria-label="Default select example">
+        
+        {%for major in majors%}
+        <option value="{{major.id}}">{{major.name}}</option>
+        {%endfor%}
+    </select>
+    
+            
+    <button type="submit" class="btn btn-light">Next</button>
+</form>
+{%elif titles%}
+
+<form method="post" action='{%url "university_index"%}' style="color: goldenrod;" class="container-md">
+    {%csrf_token%}
+    <div class="row">
+        <div class="col">
+    <div class="form-group">
+    <label for="title" class="form-select-label">Select Degree type</label>
+    <select class="form-select" name="title" required aria-placeholder="Degree type" id="title" required aria-label="Select Degree type">
+        
+        {%for title in titles%}
+        <option value="{{title.id}}">{{title.title}}</option>
+        {%endfor%}
+    </select>
+    </div></div>
+
+
+    <div class="form-group ">
+        <label class="form" for="date">date of Graduation <small style="color: grey;">please don't change the date if you want to filter all time</small></label>
+        <input type="date" value="2000-09-29" name="date" class="form-control" id="date" placeholder="date of Graduation">  
+    </div>
+</div>
+
+    <button type="submit" name="search4i" value="title" class="btn btn-primary">Find Certificate Now</button>
+</div>
+
+
+</form>
+
+{%endif%}

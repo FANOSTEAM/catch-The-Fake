@@ -19,7 +19,7 @@ from CTF.views import get_employer_from_session
 key = b"h-rU6ELYpVCgBMr_oA8Yjw7yTtl1pBwW6zF3VSGDzxE="
 
 
-def certificate_generator(certificate_obj):
+def certificate_generator(certificate_obj,mode=1):
     buffer = io.BytesIO()
 
     profile = utils.ImageReader(certificate_obj.profile_picture.path)
@@ -118,6 +118,8 @@ def certificate_generator(certificate_obj):
     my_canvas.setTitle(str(certificate_obj.title.title) + "Certificate")
     my_canvas.save()
     buffer.seek(0)
+    if mode==2:
+        return buffer
     return FileResponse(buffer, as_attachment=False, filename="certificate.pdf")
 
 
@@ -173,20 +175,20 @@ def search(request):
                 gpa = request.POST["gpa"]
                 CGPA = request.POST["CGPA"]
                 title = Title.objects.get(id=int(title_id))
-                # try:
-                certificate = Certificate.objects.get(
-                    firstName=first_name,
-                    middleName=second_name,
-                    lastName=last_name,
-                    issued_on=date,
-                    GPA=gpa,
-                    CGPA=CGPA,
-                    title=title,
-                )
-                print("yes")
-                # except Exception:
-                #     print("Nooooooo")
-                #     return JsonResponse({"not found": True})
+                try:
+                    certificate = Certificate.objects.get(
+                        firstName=first_name,
+                        middleName=second_name,
+                        lastName=last_name,
+                        issued_on=date,
+                        GPA=gpa,
+                        CGPA=CGPA,
+                        title=title,
+                    )
+                    print("yes")
+                except Exception:
+                    print("Nooooooo")
+                    return JsonResponse({"not found": True})
 
                 return certificate_generator(certificate)
 

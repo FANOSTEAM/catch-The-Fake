@@ -1,0 +1,119 @@
+{%extends 'EducationAdmin/index.html'%}
+{%load static%}
+{%block content%}  
+<link href="{%static 'boot/css/bootstrap.min.css'%}" rel="stylesheet" crossorigin="anonymous">
+
+<div id="form-container-main">
+
+    <form class="container-md" id="search2"  action="{%url 'search'%}" method ="post">
+        {%csrf_token%}
+        <label for="title" class="form-select-label" style="color: goldenrod;">Select a Collage</label>
+        <select class="form-select" id="collage" required aria-label="Default select example">
+            
+            {%for collage in collages%}
+            <option value="{{collage.id}}">{{collage.name}}</option>
+            {%endfor%}
+        </select>
+        
+                
+        <button type="submit" class="btn btn-light">Next</button>
+    </form>
+</div>
+
+
+
+<script src="{% static 'boot/js/bootstrap.bundle.min.js'%}"></script>
+{%endblock%}
+{%block script%}
+
+<script type="text/javascript" src="{%static 'js/jquery-3.6.3.min.js'%}"></script>
+
+
+
+<script>
+
+</script>  <script src="{% static 'boot/js/bootstrap.bundle.min.js'%}"></script>
+{%csrf_token%}
+<script>
+var form_container=document.getElementById('form-container-main')
+
+
+
+var search2=document.getElementById('search2')
+search2.addEventListener('submit',(e)=>{
+e.preventDefault()
+collage=document.getElementById('collage').value
+console.log('search2: ', collage)
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+$.ajax(
+        {url:'{%url "university_index"%}',
+        type:'post',
+        headers: {'X-CSRFToken': csrftoken},
+        mode: 'same-origin',
+        data:{'search2':true,'collage':collage},
+        success:function (response){
+            console.log(response)
+            console.log(form_container)
+        form_container.innerHTML=response
+        var search3=document.getElementById('search3')
+        search3.addEventListener('submit',(e)=>{
+                e.preventDefault()
+                var major=document.getElementById('major').value
+                console.log('search3: ', major)
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                $.ajax(
+                        {url:'{%url "university_index"%}',
+                        type:'post',
+                        headers: {'X-CSRFToken': csrftoken},
+                        mode: 'same-origin',
+                        data:{'search3':true,'major':major},
+                        success:function (response){
+                        form_container.innerHTML=response
+                        var search4=document.getElementById('search4')
+                        search4.addEventListener('submit',(e)=>{
+                                e.preventDefault()
+                                var title=document.getElementById('title').value
+                                var gcDate=document.getElementById('date').value
+
+                                console.log('search4: ', title,gcDate)
+                                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                                $.ajax(
+                                        {url:'{%url "university_index"%}',
+                                        type:'post',
+                                        headers: {'X-CSRFToken': csrftoken},
+                                        mode: 'same-origin',
+                                        data:{'search4':true,
+                                            'title':title,
+
+                                            'date':gcDate,
+
+                                            },
+                                        success:function (response){
+
+                                                var blob=new Blob([response]);
+                                                var link=document.createElement('a');
+                                                link.href=window.URL.createObjectURL(blob);
+                                                link.download="downolad.zip";
+                                                link.click();
+                                                alert("Certificate was found and your download will start in 5sec")
+                                                
+                                        }
+                                        }
+                                    )
+                                })
+                        }
+                        }
+                    )
+                })
+        }
+        }
+    )
+})
+
+
+</script>
+
+{%endblock%}
+
+
+
